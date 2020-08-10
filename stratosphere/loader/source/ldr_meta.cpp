@@ -123,7 +123,7 @@ namespace ams::ldr {
             const bool is_signature_valid = crypto::VerifyRsa2048PssSha256(sig, sig_size, mod, mod_size, exp, exp_size, msg, msg_size);
             R_UNLESS(is_signature_valid || !IsEnabledProgramVerification(), ResultInvalidAcidSignature());
 
-            meta->is_signed = is_signature_valid;
+            meta->is_signed = false;
             return ResultSuccess();
         }
 
