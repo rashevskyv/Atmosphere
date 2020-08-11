@@ -61,7 +61,7 @@ namespace dbk {
         /* Update install state. */
         char g_update_path[FS_MAX_PATH];
         bool g_reset_to_factory = false;
-        bool g_exfat_supported = false;
+        bool g_exfat_supported = true;
         bool g_use_exfat = true;
 
         constexpr u32 MaxTapMovement = 20;
@@ -942,11 +942,8 @@ namespace dbk {
                     break;
             }
 
-            if (g_exfat_supported) {
-                ChangeMenu(std::make_shared<ChooseExfatMenu>(g_current_menu));
-            } else {
-                ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));
-            }
+            ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));
+            
         }
 
         this->UpdateButtons();
@@ -965,25 +962,25 @@ namespace dbk {
         this->DrawButtons(vg, ns);
     }
 
-    // ChooseExfatMenu::ChooseExfatMenu(std::shared_ptr<Menu> prev_menu) : Menu(prev_menu) {
-    //     const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
-    //     const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
-    //     const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
+    ChooseExfatMenu::ChooseExfatMenu(std::shared_ptr<Menu> prev_menu) : Menu(prev_menu) {
+        const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
+        const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
+        const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
 
-    //     /* Add buttons. */
-    //     this->AddButton(Fat32ButtonId, "Install (FAT32)", x + HorizontalInset, y + TitleGap, button_width, ButtonHeight);
-    //     this->AddButton(ExFatButtonId, "Install (FAT32 + exFAT)", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
+        /* Add buttons. */
+        this->AddButton(Fat32ButtonId, "Install (FAT32)", x + HorizontalInset, y + TitleGap, button_width, ButtonHeight);
+        this->AddButton(ExFatButtonId, "Install (FAT32 + exFAT)", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
 
-    //     /* Set the default selected button based on the user's current install. We aren't particularly concerned if fsIsExFatSupported fails. */
-    //     bool exfat_supported = false;
-    //     fsIsExFatSupported(&exfat_supported);
+        /* Set the default selected button based on the user's current install. We aren't particularly concerned if fsIsExFatSupported fails. */
+        bool exfat_supported = false;
+        fsIsExFatSupported(&exfat_supported);
 
-    //     if (exfat_supported) {
-    //         this->SetButtonSelected(ExFatButtonId, true);
-    //     } else {
-    //         this->SetButtonSelected(Fat32ButtonId, true);
-    //     }
-    // }
+        if (exfat_supported) {
+            this->SetButtonSelected(ExFatButtonId, true);
+        } else {
+            this->SetButtonSelected(Fat32ButtonId, true);
+        }
+    }
 
     void ChooseExfatMenu::Update(u64 ns) {
         u64 k_down = hidKeysDown(CONTROLLER_P1_AUTO);
