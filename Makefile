@@ -50,12 +50,14 @@ dist: all
 		| tr -s [:blank:] \
 		| cut -d' ' -f3))
 	$(eval AMSVER = out)
+
+	rm ../atmosphere-$(AMSVER).zip
 	rm -rf atmosphere-$(AMSVER)
 	rm -rf out
 	mkdir -p atmosphere-$(AMSVER)
-	mkdir atmosphere-$(AMSVER)/atmo/atmosphere
-	mkdir atmosphere-$(AMSVER)/atmo/sept
-	mkdir atmosphere-$(AMSVER)/switch
+	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere
+	mkdir -p atmosphere-$(AMSVER)/atmo/sept
+	mkdir -p atmosphere-$(AMSVER)/switch
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000008
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000000D
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000002B
@@ -102,7 +104,6 @@ dist: all
 	cd atmosphere-$(AMSVER); zip -r ../atmosphere-$(AMSVER).zip ./*; cd ../;
 	rm -r atmosphere-$(AMSVER)
 	mkdir out
-	rm ../atmosphere-$(AMSVER).zip
 	mv atmosphere-$(AMSVER).zip ../atmosphere-$(AMSVER).zip
 
 dist-debug: debug
