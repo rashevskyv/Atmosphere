@@ -972,7 +972,7 @@ namespace dbk {
         this->AddButton(ExFatButtonId, "Install (FAT32 + exFAT)", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
 
         /* Set the default selected button based on the user's current install. We aren't particularly concerned if fsIsExFatSupported fails. */
-        bool exfat_supported = false;
+        bool exfat_supported = true;
         fsIsExFatSupported(&exfat_supported);
 
         if (exfat_supported) {
