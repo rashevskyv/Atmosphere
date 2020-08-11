@@ -51,11 +51,12 @@ dist: all
 		| cut -d' ' -f3))
 	$(eval AMSVER = out)
 
-	rm ../atmosphere-$(AMSVER).zip
+	rm -rf ../atmosphere-$(AMSVER).zip
 	rm -rf atmosphere-$(AMSVER)
 	rm -rf out
 	mkdir -p atmosphere-$(AMSVER)
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere
+	mkdir -p atmosphere-$(AMSVER)/base/bootloader/payloads
 	mkdir -p atmosphere-$(AMSVER)/atmo/sept
 	mkdir -p atmosphere-$(AMSVER)/switch
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000008
