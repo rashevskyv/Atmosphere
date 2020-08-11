@@ -9,8 +9,8 @@ Building Atmosphère is a very straightforward process that relies almost exclus
 
 ## Instructions
 1. Follow the guide located [here](https://devkitpro.org/wiki/Getting_Started) to install and configure all the tools necessary for the build process. 
-
-1. Install the following packages via (dkp-)pacman:
+1. Sure that zip is installed. Instead `sudo apt-get install zip -y`
+1. Install the following packages via `dkp-pacman -S` :
     + `switch-dev`
     + `switch-libjpeg-turbo`
     + `devkitARM`
