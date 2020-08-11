@@ -39,7 +39,7 @@ clean:
 	$(MAKE) -C fusee clean
 	rm -rf out
 
-dist-no-debug: all
+dist: all
 	$(eval MAJORVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MAJOR\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
 		| tr -s [:blank:] \
 		| cut -d' ' -f3))
@@ -106,50 +106,50 @@ dist-no-debug: all
 	mv atmosphere-$(AMSVER).zip ../atmosphere-$(AMSVER).zip
 	cp fusee/fusee-primary/fusee-primary.bin out/fusee-primary.bin
 
-# dist: dist-no-debug
-# 	$(eval MAJORVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MAJOR\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
-# 		| tr -s [:blank:] \
-# 		| cut -d' ' -f3))
-# 	$(eval MINORVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MINOR\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
-# 		| tr -s [:blank:] \
-# 		| cut -d' ' -f3))
-# 	$(eval MICROVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MICRO\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
-# 		| tr -s [:blank:] \
-# 		| cut -d' ' -f3))
-# 	$(eval AMSVER = out2)
-# 	rm -rf atmosphere-$(AMSVER)-debug
-# 	mkdir atmosphere-$(AMSVER)-debug
-# 	cp fusee/fusee-primary/fusee-primary.elf atmosphere-$(AMSVER)-debug/fusee-primary.elf
-# 	cp fusee/fusee-mtc/fusee-mtc.elf atmosphere-$(AMSVER)-debug/fusee-mtc.elf
-# 	cp fusee/fusee-secondary/fusee-secondary.elf atmosphere-$(AMSVER)-debug/fusee-secondary.elf
-# 	cp sept/sept-primary/sept-primary.elf atmosphere-$(AMSVER)-debug/sept-primary.elf
-# 	cp sept/sept-secondary/sept-secondary.elf atmosphere-$(AMSVER)-debug/sept-secondary.elf
-# 	cp sept/sept-secondary/key_derivation/key_derivation.elf atmosphere-$(AMSVER)-debug/sept-secondary-key-derivation.elf
-# 	cp exosphere/loader_stub/loader_stub.elf atmosphere-$(AMSVER)-debug/exosphere-loader-stub.elf
-# 	cp exosphere/program/program.elf atmosphere-$(AMSVER)-debug/exosphere-program.elf
-# 	cp exosphere/warmboot/warmboot.elf atmosphere-$(AMSVER)-debug/exosphere-warmboot.elf
-# 	cp exosphere/program/sc7fw/sc7fw.elf atmosphere-$(AMSVER)-debug/exosphere-sc7fw.elf
-# 	cp exosphere/program/rebootstub/rebootstub.elf atmosphere-$(AMSVER)-debug/exosphere-rebootstub.elf
-# 	cp mesosphere/kernel_ldr/kernel_ldr.elf atmosphere-$(AMSVER)-debug/kernel_ldr.elf
-# 	cp stratosphere/ams_mitm/ams_mitm.elf atmosphere-$(AMSVER)-debug/ams_mitm.elf
-# 	cp stratosphere/boot/boot.elf atmosphere-$(AMSVER)-debug/boot.elf
-# 	cp stratosphere/boot2/boot2.elf atmosphere-$(AMSVER)-debug/boot2.elf
-# 	cp stratosphere/creport/creport.elf atmosphere-$(AMSVER)-debug/creport.elf
-# 	cp stratosphere/dmnt/dmnt.elf atmosphere-$(AMSVER)-debug/dmnt.elf
-# 	cp stratosphere/eclct.stub/eclct.stub.elf atmosphere-$(AMSVER)-debug/eclct.stub.elf
-# 	cp stratosphere/fatal/fatal.elf atmosphere-$(AMSVER)-debug/fatal.elf
-# 	cp stratosphere/loader/loader.elf atmosphere-$(AMSVER)-debug/loader.elf
-# 	cp stratosphere/pm/pm.elf atmosphere-$(AMSVER)-debug/pm.elf
-# 	cp stratosphere/ro/ro.elf atmosphere-$(AMSVER)-debug/ro.elf
-# 	cp stratosphere/sm/sm.elf atmosphere-$(AMSVER)-debug/sm.elf
-# 	cp stratosphere/spl/spl.elf atmosphere-$(AMSVER)-debug/spl.elf
-# 	cp stratosphere/erpt/erpt.elf atmosphere-$(AMSVER)-debug/erpt.elf
-# 	cp stratosphere/jpegdec/jpegdec.elf atmosphere-$(AMSVER)-debug/jpegdec.elf
-# 	cp stratosphere/pgl/pgl.elf atmosphere-$(AMSVER)-debug/pgl.elf
-# 	cp troposphere/daybreak/daybreak.elf atmosphere-$(AMSVER)-debug/daybreak.elf
-# 	cd atmosphere-$(AMSVER)-debug; zip -r ../atmosphere-$(AMSVER)-debug.zip ./*; cd ../;
-# 	rm -r atmosphere-$(AMSVER)-debug
-# 	mv atmosphere-$(AMSVER)-debug.zip out/atmosphere-$(AMSVER)-debug.zip
+dist-debug: debug
+	$(eval MAJORVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MAJOR\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
+		| tr -s [:blank:] \
+		| cut -d' ' -f3))
+	$(eval MINORVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MINOR\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
+		| tr -s [:blank:] \
+		| cut -d' ' -f3))
+	$(eval MICROVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MICRO\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
+		| tr -s [:blank:] \
+		| cut -d' ' -f3))
+	$(eval AMSVER = out2)
+	rm -rf atmosphere-$(AMSVER)-debug
+	mkdir atmosphere-$(AMSVER)-debug
+	cp fusee/fusee-primary/fusee-primary.elf atmosphere-$(AMSVER)-debug/fusee-primary.elf
+	cp fusee/fusee-mtc/fusee-mtc.elf atmosphere-$(AMSVER)-debug/fusee-mtc.elf
+	cp fusee/fusee-secondary/fusee-secondary.elf atmosphere-$(AMSVER)-debug/fusee-secondary.elf
+	cp sept/sept-primary/sept-primary.elf atmosphere-$(AMSVER)-debug/sept-primary.elf
+	cp sept/sept-secondary/sept-secondary.elf atmosphere-$(AMSVER)-debug/sept-secondary.elf
+	cp sept/sept-secondary/key_derivation/key_derivation.elf atmosphere-$(AMSVER)-debug/sept-secondary-key-derivation.elf
+	cp exosphere/loader_stub/loader_stub.elf atmosphere-$(AMSVER)-debug/exosphere-loader-stub.elf
+	cp exosphere/program/program.elf atmosphere-$(AMSVER)-debug/exosphere-program.elf
+	cp exosphere/warmboot/warmboot.elf atmosphere-$(AMSVER)-debug/exosphere-warmboot.elf
+	cp exosphere/program/sc7fw/sc7fw.elf atmosphere-$(AMSVER)-debug/exosphere-sc7fw.elf
+	cp exosphere/program/rebootstub/rebootstub.elf atmosphere-$(AMSVER)-debug/exosphere-rebootstub.elf
+	cp mesosphere/kernel_ldr/kernel_ldr.elf atmosphere-$(AMSVER)-debug/kernel_ldr.elf
+	cp stratosphere/ams_mitm/ams_mitm.elf atmosphere-$(AMSVER)-debug/ams_mitm.elf
+	cp stratosphere/boot/boot.elf atmosphere-$(AMSVER)-debug/boot.elf
+	cp stratosphere/boot2/boot2.elf atmosphere-$(AMSVER)-debug/boot2.elf
+	cp stratosphere/creport/creport.elf atmosphere-$(AMSVER)-debug/creport.elf
+	cp stratosphere/dmnt/dmnt.elf atmosphere-$(AMSVER)-debug/dmnt.elf
+	cp stratosphere/eclct.stub/eclct.stub.elf atmosphere-$(AMSVER)-debug/eclct.stub.elf
+	cp stratosphere/fatal/fatal.elf atmosphere-$(AMSVER)-debug/fatal.elf
+	cp stratosphere/loader/loader.elf atmosphere-$(AMSVER)-debug/loader.elf
+	cp stratosphere/pm/pm.elf atmosphere-$(AMSVER)-debug/pm.elf
+	cp stratosphere/ro/ro.elf atmosphere-$(AMSVER)-debug/ro.elf
+	cp stratosphere/sm/sm.elf atmosphere-$(AMSVER)-debug/sm.elf
+	cp stratosphere/spl/spl.elf atmosphere-$(AMSVER)-debug/spl.elf
+	cp stratosphere/erpt/erpt.elf atmosphere-$(AMSVER)-debug/erpt.elf
+	cp stratosphere/jpegdec/jpegdec.elf atmosphere-$(AMSVER)-debug/jpegdec.elf
+	cp stratosphere/pgl/pgl.elf atmosphere-$(AMSVER)-debug/pgl.elf
+	cp troposphere/daybreak/daybreak.elf atmosphere-$(AMSVER)-debug/daybreak.elf
+	cd atmosphere-$(AMSVER)-debug; zip -r ../atmosphere-$(AMSVER)-debug.zip ./*; cd ../;
+	rm -r atmosphere-$(AMSVER)-debug
+	mv atmosphere-$(AMSVER)-debug.zip out/atmosphere-$(AMSVER)-debug.zip
 
 
 .PHONY: $(TOPTARGETS) $(COMPONENTS)
