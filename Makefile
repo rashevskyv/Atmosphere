@@ -104,7 +104,6 @@ dist: all
 	mkdir out
 	rm ../atmosphere-$(AMSVER).zip
 	mv atmosphere-$(AMSVER).zip ../atmosphere-$(AMSVER).zip
-	cp fusee/fusee-primary/fusee-primary.bin out/fusee-primary.bin
 
 dist-debug: debug
 	$(eval MAJORVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MAJOR\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
