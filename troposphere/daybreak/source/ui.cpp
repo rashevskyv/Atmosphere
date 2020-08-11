@@ -61,8 +61,8 @@ namespace dbk {
         /* Update install state. */
         char g_update_path[FS_MAX_PATH];
         bool g_reset_to_factory = false;
-        bool g_exfat_supported = true;
-        bool g_use_exfat = true;
+        bool g_exfat_supported = false;
+        bool g_use_exfat = false;
 
         constexpr u32 MaxTapMovement = 20;
 
@@ -882,7 +882,7 @@ namespace dbk {
                     /* Check if exfat is supported. */
                     g_exfat_supported = m_update_info.exfat_supported && R_SUCCEEDED(m_validation_info.exfat_result);
                     if (!g_exfat_supported) {
-                        g_use_exfat = true;
+                        g_use_exfat = false;
                     }
 
                     /* Warn the user if they're updating with exFAT supposed to be supported but not present/corrupted. */
@@ -942,8 +942,11 @@ namespace dbk {
                     break;
             }
 
-            ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));
-            
+            if (g_exfat_supported) {
+                ChangeMenu(std::make_shared<ChooseExfatMenu>(g_current_menu));
+            } else {
+                ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));
+            }
         }
 
         this->UpdateButtons();
@@ -972,7 +975,7 @@ namespace dbk {
         this->AddButton(ExFatButtonId, "Install (FAT32 + exFAT)", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
 
         /* Set the default selected button based on the user's current install. We aren't particularly concerned if fsIsExFatSupported fails. */
-        bool exfat_supported = true;
+        bool exfat_supported = false;
         fsIsExFatSupported(&exfat_supported);
 
         if (exfat_supported) {
@@ -995,7 +998,7 @@ namespace dbk {
         if (const Button *activated_button = this->GetActivatedButton(); activated_button != nullptr) {
             switch (activated_button->id) {
                 case Fat32ButtonId:
-                    g_use_exfat = true;
+                    g_use_exfat = false;
                     break;
                 case ExFatButtonId:
                     g_use_exfat = true;
