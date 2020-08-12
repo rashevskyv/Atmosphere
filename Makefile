@@ -58,7 +58,7 @@ dist: all
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere
 	mkdir -p atmosphere-$(AMSVER)/base/bootloader/payloads
 	mkdir -p atmosphere-$(AMSVER)/atmo/sept
-	mkdir -p atmosphere-$(AMSVER)/switch
+	mkdir -p atmosphere-$(AMSVER)/atmo/switch
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000008
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000000D
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000002B
@@ -99,9 +99,8 @@ dist: all
 	touch atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000032/flags/boot2.flag
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000037/flags
 	touch atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000037/flags/boot2.flag
-	mkdir -p atmosphere-$(AMSVER)/bootloader/payloads
 	cp fusee/fusee-primary/fusee-primary.bin atmosphere-$(AMSVER)/base/bootloader/payloads/fusee-primary.bin
-	cp troposphere/daybreak/daybreak.nro atmosphere-$(AMSVER)/switch/daybreak.nro
+	cp troposphere/daybreak/daybreak.nro atmosphere-$(AMSVER)/atmo/switch/daybreak.nro
 	cd atmosphere-$(AMSVER); zip -r ../atmosphere-$(AMSVER).zip ./*; cd ../;
 	rm -r atmosphere-$(AMSVER)
 	mkdir out
