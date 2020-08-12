@@ -58,7 +58,7 @@ dist: all
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere
 	mkdir -p atmosphere-$(AMSVER)/base/bootloader/payloads
 	mkdir -p atmosphere-$(AMSVER)/atmo/sept
-	mkdir -p atmosphere-$(AMSVER)/atmo/switch
+	mkdir -p atmosphere-$(AMSVER)/atmo/switch/daybreak
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000008
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000000D
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000002B
