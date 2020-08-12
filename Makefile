@@ -80,7 +80,6 @@ dist: all
 	cp sept/sept-secondary/sept-secondary_01.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_01.enc
 	cp sept/sept-secondary/sept-secondary_dev_00.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_dev_00.enc
 	cp sept/sept-secondary/sept-secondary_dev_01.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_dev_01.enc
-	cp config_templates/BCT.ini atmosphere-$(AMSVER)/atmo/atmosphere/config/BCT.ini
 	cp config_templates/override_config.ini atmosphere-$(AMSVER)/atmo/atmosphere/config_templates/override_config.ini
 	cp config_templates/system_settings.ini atmosphere-$(AMSVER)/atmo/atmosphere/config_templates/system_settings.ini
 	cp config_templates/exosphere.ini atmosphere-$(AMSVER)/atmo/atmosphere/config_templates/exosphere.ini
@@ -100,7 +99,7 @@ dist: all
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000037/flags
 	touch atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000037/flags/boot2.flag
 	cp fusee/fusee-primary/fusee-primary.bin atmosphere-$(AMSVER)/base/bootloader/payloads/fusee-primary.bin
-	cp troposphere/daybreak/daybreak.nro atmosphere-$(AMSVER)/atmo/switch/daybreak.nro
+	cp troposphere/daybreak/daybreak.nro atmosphere-$(AMSVER)/atmo/switch/daybreak/daybreak.nro
 	cd atmosphere-$(AMSVER); zip -r ../atmosphere-$(AMSVER).zip ./*; cd ../;
 	rm -r atmosphere-$(AMSVER)
 	mkdir out
