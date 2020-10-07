@@ -82,6 +82,7 @@ namespace ams::mitm::settings {
                 const auto api_info = exosphere::GetApiInfo();
                 const char emummc_char = emummc::IsActive() ? 'E' : 'S';
 
+<<<<<<< HEAD
                 /* GCC complains about the following snprintf possibly truncating, but this is not a problem and has been carefully accounted for. */
                 #pragma GCC diagnostic push
                 #pragma GCC diagnostic ignored "-Wformat-truncation"
@@ -95,6 +96,21 @@ namespace ams::mitm::settings {
                     std::memcpy(g_ams_firmware_version.display_version, display_version, sizeof(display_version));
                 }
                 #pragma GCC diagnostic pop
+=======
+                /* NOTE: While Mesosphere is in experimental/opt-in, we will display it as part of the firmware. */
+                const char mesosphere_char = svc::IsKernelMesosphere() ? 'M' : '0';
+
+                /* TODO: Remove separate display for mesosphere vs not mesosphere in Atmosphere 1.0.0. */
+                AMS_ABORT_UNLESS(api_info.GetMajorVersion() == 0);
+
+                /* NOTE: We have carefully accounted for the size of the string we print. */
+                /* No truncation occurs assuming two-digits for all version number components. */
+                char display_version[sizeof(g_ams_firmware_version.display_version)];
+
+                std::snprintf(display_version, sizeof(display_version), "%s|AMS %c.%u.%u|%c", g_ams_firmware_version.display_version, mesosphere_char, api_info.GetMinorVersion(), api_info.GetMicroVersion(), emummc_char);
+
+                std::memcpy(g_ams_firmware_version.display_version, display_version, sizeof(display_version));
+>>>>>>> 4138abbefa0c3c9b11671e5dba4e42d0fdbf5152
             }
 
             g_cached_firmware_version = true;

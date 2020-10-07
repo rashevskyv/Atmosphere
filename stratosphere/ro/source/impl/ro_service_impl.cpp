@@ -435,7 +435,7 @@ namespace ams::ro::impl {
         /* Map. */
         NrrHeader *header = nullptr;
         u64 mapped_code_address = 0;
-        R_TRY(MapAndValidateNrr(&header, &mapped_code_address, std::addressof(signed_area_hash), sizeof(signed_area_hash), context->process_handle, program_id, nrr_address, nrr_size, expected_type, enforce_type));
+        R_TRY(MapAndValidateNrr(&header, &mapped_code_address, std::addressof(signed_area_hash), sizeof(signed_area_hash), context->process_handle, program_id, nrr_address, nrr_size, nrr_kind, enforce_nrr_kind));
 
         /* Set NRR info. */
         context->SetNrrInfoInUse(nrr_info, true);

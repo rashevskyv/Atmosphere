@@ -24,6 +24,7 @@
 #include "nxboot.h"
 #include "nxfs.h"
 #include "bct.h"
+#include "car.h"
 #include "di.h"
 #include "mc.h"
 #include "se.h"
@@ -208,11 +209,11 @@ static int stratosphere_ini_handler(void *user, const char *section, const char 
             strat_cfg->has_nogc_config = true;
             sscanf(value, "%d", &tmp);
             strat_cfg->enable_nogc = tmp != 0;
-        } else if (strcmp(name, STRATOSPHERE_ENABLE_NCM_KEY) == 0) {
+        } else if (strcmp(name, STRATOSPHERE_DISABLE_NCM_KEY) == 0) {
             sscanf(value, "%d", &tmp);
-            strat_cfg->ncm_enabled = tmp != 0;
-            if (strat_cfg->ncm_enabled) {
-                stratosphere_enable_ncm();
+            strat_cfg->ncm_disabled = tmp != 0;
+            if (strat_cfg->ncm_disabled) {
+                stratosphere_disable_ncm();
             }
         } else {
             return 0;
@@ -634,6 +635,8 @@ uint32_t nxboot_main(void) {
     void *warmboot_memaddr;
     void *package1loader;
     size_t package1loader_size;
+    void *mesosphere;
+    size_t mesosphere_size;
     void *emummc;
     size_t emummc_size;
     uint32_t available_revision;
@@ -929,6 +932,28 @@ uint32_t nxboot_main(void) {
             pmc->scratch1 = (uint32_t)warmboot_memaddr;
     }
 
+    /* Configure mesosphere. */
+    /* TODO: Support non-SD/embedded mesosphere. */
+    {
+        size_t sd_meso_size = get_file_size("atmosphere/mesosphere.bin");
+        if (sd_meso_size != 0) {
+            if (sd_meso_size > PACKAGE2_SIZE_MAX) {
+                fatal_error("Error: atmosphere/mesosphere.bin is too large!\n");
+            }
+            mesosphere = malloc(sd_meso_size);
+            if (mesosphere == NULL) {
+                fatal_error("Error: failed to allocate mesosphere!\n");
+            }
+            if (read_from_file(mesosphere, sd_meso_size, "atmosphere/mesosphere.bin") != sd_meso_size) {
+                fatal_error("Error: failed to read atmosphere/mesosphere.bin!\n");
+            }
+            mesosphere_size = sd_meso_size;
+        } else {
+            mesosphere = NULL;
+            mesosphere_size = 0;
+        }
+    }
+
     print(SCREEN_LOG_LEVEL_INFO, "[NXBOOT] Rebuilding package2...\n");
 
     /* Parse stratosphere config. */
@@ -937,7 +962,7 @@ uint32_t nxboot_main(void) {
     print(SCREEN_LOG_LEVEL_INFO, u8"[NXBOOT] Configured Stratosphere...\n");
 
     /* Patch package2, adding Thermosphère + custom KIPs. */
-    package2_rebuild_and_copy(package2, MAILBOX_EXOSPHERE_CONFIGURATION->target_firmware, emummc, emummc_size);
+    package2_rebuild_and_copy(package2, MAILBOX_EXOSPHERE_CONFIGURATION->target_firmware, mesosphere, mesosphere_size, emummc, emummc_size);
 
     /* Set detected FS version. */
     MAILBOX_EXOSPHERE_CONFIGURATION->emummc_cfg.base_cfg.fs_version = stratosphere_get_fs_version();
@@ -991,6 +1016,12 @@ uint32_t nxboot_main(void) {
 
     /* Wait for the splash screen to have been displayed for as long as it should be. */
     splash_screen_wait_delay();
+
+    /* Set reset for USBD, USB2, AHBDMA, and APBDMA. */
+    rst_enable(CARDEVICE_USBD);
+    rst_enable(CARDEVICE_USB2);
+    rst_enable(CARDEVICE_AHBDMA);
+    rst_enable(CARDEVICE_APBDMA);
 
     /* Return the memory address for booting CPU0. */
     return (uint32_t)exosphere_memaddr;

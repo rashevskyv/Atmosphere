@@ -27,7 +27,7 @@ namespace ams::ro {
         impl::SetDevelopmentFunctionEnabled(is_development_function_enabled);
     }
 
-    RoService::RoService(ModuleType t) : context_id(impl::InvalidContextId), type(t) {
+    RoService::RoService(NrrKind k) : context_id(impl::InvalidContextId), nrr_kind(k) {
         /* ... */
     }
 
@@ -47,7 +47,7 @@ namespace ams::ro {
 
     Result RoService::RegisterModuleInfo(const sf::ClientProcessId &client_pid, u64 nrr_address, u64 nrr_size) {
         R_TRY(impl::ValidateProcess(this->context_id, client_pid.GetValue()));
-        return impl::RegisterModuleInfo(this->context_id, svc::InvalidHandle, nrr_address, nrr_size, ModuleType::ForSelf, true);
+        return impl::RegisterModuleInfo(this->context_id, svc::InvalidHandle, nrr_address, nrr_size, NrrKind_User, true);
     }
 
     Result RoService::UnregisterModuleInfo(const sf::ClientProcessId &client_pid, u64 nrr_address) {
