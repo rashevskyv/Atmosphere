@@ -38,7 +38,7 @@ namespace ams::mitm {
             ModuleId_NsMitm,
             ModuleId_HidMitm,
             ModuleId_Sysupdater,
-            // ModuleId_FspUsb,
+            ModuleId_FspUsb,
             ModuleId_Count,
         };
 
@@ -71,7 +71,7 @@ namespace ams::mitm {
             GetModuleDefinition<ns::MitmModule>(),
             GetModuleDefinition<hid::MitmModule>(),
             GetModuleDefinition<sysupdater::MitmModule>(),
-            // GetModuleDefinition<fspusb::MitmModule>(),
+            GetModuleDefinition<fspusb::MitmModule>(),
         };
 
     }
