@@ -49,7 +49,7 @@ dist: all
 	$(eval MICROVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MICRO\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
 		| tr -s [:blank:] \
 		| cut -d' ' -f3))
-	$(eval AMSVER = $(MAJORVER)_$(MINORVER)_$(MICROVER))
+	$(eval AMSVER = out)
 
 	rm -rf ../atmosphere-$(AMSVER).zip
 	rm -rf atmosphere-$(AMSVER)
