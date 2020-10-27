@@ -24,7 +24,7 @@
 #include "ns_mitm/nsmitm_module.hpp"
 #include "hid_mitm/hidmitm_module.hpp"
 #include "sysupdater/sysupdater_module.hpp"
-// #include "fsp_usb/fspusb_module.hpp" 
+#include "fsp_usb/fspusb_module.hpp" 
 
 namespace ams::mitm {
 
