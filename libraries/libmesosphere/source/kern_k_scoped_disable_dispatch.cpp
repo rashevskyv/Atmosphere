@@ -13,14 +13,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+#include <mesosphere.hpp>
 
-#define ATMOSPHERE_RELEASE_VERSION_MAJOR    0
-#define ATMOSPHERE_RELEASE_VERSION_MINOR    15
-#define ATMOSPHERE_RELEASE_VERSION_MICRO    0
+namespace ams::kern {
 
-#define ATMOSPHERE_RELEASE_VERSION ATMOSPHERE_RELEASE_VERSION_MAJOR, ATMOSPHERE_RELEASE_VERSION_MINOR, ATMOSPHERE_RELEASE_VERSION_MICRO
+    KScopedDisableDispatch::~KScopedDisableDispatch() {
+        if (GetCurrentThread().GetDisableDispatchCount() <= 1) {
+            Kernel::GetScheduler().RescheduleCurrentCore();
+        } else {
+            GetCurrentThread().EnableDispatch();
+        }
+    }
 
-#define ATMOSPHERE_SUPPORTED_HOS_VERSION_MAJOR 10
-#define ATMOSPHERE_SUPPORTED_HOS_VERSION_MINOR 2
-#define ATMOSPHERE_SUPPORTED_HOS_VERSION_MICRO 0
+}

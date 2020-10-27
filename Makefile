@@ -49,11 +49,12 @@ dist: all
 	$(eval MICROVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MICRO\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
 		| tr -s [:blank:] \
 		| cut -d' ' -f3))
-	$(eval AMSVER = out)
+	$(eval AMSVER = $(MAJORVER)_$(MINORVER)_$(MICROVER))
 
 	rm -rf ../atmosphere-$(AMSVER).zip
 	rm -rf atmosphere-$(AMSVER)
 	rm -rf out
+
 	mkdir -p atmosphere-$(AMSVER)
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere
 	mkdir -p atmosphere-$(AMSVER)/base/bootloader/payloads
@@ -71,18 +72,23 @@ dist: all
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/fatal_errors
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/config_templates
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/config
+
 	cp fusee/fusee-mtc/fusee-mtc.bin atmosphere-$(AMSVER)/atmo/atmosphere/fusee-mtc.bin
 	cp fusee/fusee-secondary/fusee-secondary.bin atmosphere-$(AMSVER)/atmo/atmosphere/fusee-secondary.bin
 	cp fusee/fusee-secondary/fusee-secondary.bin atmosphere-$(AMSVER)/atmo/sept/payload.bin
+
+
 	cp sept/sept-primary/sept-primary.bin atmosphere-$(AMSVER)/atmo/sept/sept-primary.bin
 	cp sept/sept-secondary/sept-secondary.bin atmosphere-$(AMSVER)/atmo/sept/sept-secondary.bin
 	cp sept/sept-secondary/sept-secondary_00.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_00.enc
 	cp sept/sept-secondary/sept-secondary_01.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_01.enc
 	cp sept/sept-secondary/sept-secondary_dev_00.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_dev_00.enc
 	cp sept/sept-secondary/sept-secondary_dev_01.enc atmosphere-$(AMSVER)/atmo/sept/sept-secondary_dev_01.enc
+
 	cp config_templates/override_config.ini atmosphere-$(AMSVER)/atmo/atmosphere/config_templates/override_config.ini
 	cp config_templates/system_settings.ini atmosphere-$(AMSVER)/atmo/atmosphere/config_templates/system_settings.ini
 	cp config_templates/exosphere.ini atmosphere-$(AMSVER)/atmo/atmosphere/config_templates/exosphere.ini
+
 	cp -r config_templates/kip_patches atmosphere-$(AMSVER)/atmo/atmosphere/kip_patches
 	cp -r config_templates/hbl_html atmosphere-$(AMSVER)/atmo/atmosphere/hbl_html
 	cp stratosphere/boot2/boot2.nsp atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000008/exefs.nsp
@@ -94,6 +100,7 @@ dist: all
 	cp stratosphere/ro/ro.nsp atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000037/exefs.nsp
 	cp stratosphere/jpegdec/jpegdec.nsp atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000003C/exefs.nsp
 	cp stratosphere/pgl/pgl.nsp atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000042/exefs.nsp
+
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000032/flags
 	touch atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000032/flags/boot2.flag
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000037/flags
@@ -115,12 +122,12 @@ dist-debug: debug
 	$(eval MICROVER = $(shell grep 'define ATMOSPHERE_RELEASE_VERSION_MICRO\b' libraries/libvapours/include/vapours/ams/ams_api_version.h \
 		| tr -s [:blank:] \
 		| cut -d' ' -f3))
-	$(eval AMSVER = out2)
+	$(eval AMSVER = $(MAJORVER).$(MINORVER).$(MICROVER)-$(AMSREV))
 	rm -rf atmosphere-$(AMSVER)-debug
 	mkdir atmosphere-$(AMSVER)-debug
 	cp fusee/fusee-primary/fusee-primary.elf atmosphere-$(AMSVER)-debug/fusee-primary.elf
 	cp fusee/fusee-mtc/fusee-mtc.elf atmosphere-$(AMSVER)-debug/fusee-mtc.elf
-	cp fusee/fusee-secondary/fusee-secondary.elf atmosphere-$(AMSVER)-debug/fusee-secondary.elf
+	cp fusee/fusee-secondary/fusee-secondary-experimental.elf atmosphere-$(AMSVER)-debug/fusee-secondary.elf
 	cp sept/sept-primary/sept-primary.elf atmosphere-$(AMSVER)-debug/sept-primary.elf
 	cp sept/sept-secondary/sept-secondary.elf atmosphere-$(AMSVER)-debug/sept-secondary.elf
 	cp sept/sept-secondary/key_derivation/key_derivation.elf atmosphere-$(AMSVER)-debug/sept-secondary-key-derivation.elf
