@@ -29,6 +29,7 @@ Building Atmosphère is a very straightforward process that relies almost exclus
     + `make install`
     + Unpack maked tar in `libnx/nx` to `opt/devkitpro/libnx`
     + `sudo apt install python-pip`
+    + `sudo apt install python3-pip`
     + `pip install pycryptodome`
     + `pip install lz4==0.10.0`
 

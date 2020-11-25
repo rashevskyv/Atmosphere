@@ -14,3 +14,5 @@ export SEPT_DEV_01_ENC_PATH="~/sept/sept-secondary_dev_01.enc"
 git remote add fspusb https://github.com/XorTroll/Atmosphere.git
 git fetch fspusb
 git cherry-pick <commit>
+
+sudo nano ~/.bashrc - export 
