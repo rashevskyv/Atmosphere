@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <vapours.hpp>
 
-#define ATMOSPHERE_RELEASE_VERSION_MAJOR    0
-#define ATMOSPHERE_RELEASE_VERSION_MINOR    17
-#define ATMOSPHERE_RELEASE_VERSION_MICRO    1
+namespace ams::os {
 
-#define ATMOSPHERE_RELEASE_VERSION ATMOSPHERE_RELEASE_VERSION_MAJOR, ATMOSPHERE_RELEASE_VERSION_MINOR, ATMOSPHERE_RELEASE_VERSION_MICRO
+    struct WaitableHolderType;
+    struct WaitableManagerType;
 
-#define ATMOSPHERE_SUPPORTED_HOS_VERSION_MAJOR 11
-#define ATMOSPHERE_SUPPORTED_HOS_VERSION_MINOR 0
-#define ATMOSPHERE_SUPPORTED_HOS_VERSION_MICRO 1
+    Result SdkReplyAndReceive(os::WaitableHolderType **out, Handle reply_target, WaitableManagerType *manager);
+
+}
