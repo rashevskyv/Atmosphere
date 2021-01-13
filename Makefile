@@ -58,7 +58,6 @@ dist: all
 	mkdir  -p atmosphere-$(AMSVER)
 	mkdir  -p atmosphere-$(AMSVER)/atmo/atmosphere
 	mkdir  -p atmosphere-$(AMSVER)/atmo/sept
-	mkdir  -p atmosphere-$(AMSVER)/atmo/switch
 	mkdir -p atmosphere-$(AMSVER)/base/bootloader/payloads
 
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000008
@@ -71,7 +70,6 @@ dist: all
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/010000000000003C
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/contents/0100000000000042
 
-	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/fatal_errors
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/config_templates
 	mkdir -p atmosphere-$(AMSVER)/atmo/atmosphere/config
 
