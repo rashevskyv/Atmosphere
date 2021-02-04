@@ -13,11 +13,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 #include <stratosphere.hpp>
 
-namespace ams::mitm {
+namespace ams::socket::impl {
 
-    void ThrowResultForDebug(Result res);
+    Errno GetLastError();
+    void SetLastError(Errno err);
+
+    u32 InetHtonl(u32 host);
+    u16 InetHtons(u16 host);
+    u32 InetNtohl(u32 net);
+    u16 InetNtohs(u16 net);
 
 }

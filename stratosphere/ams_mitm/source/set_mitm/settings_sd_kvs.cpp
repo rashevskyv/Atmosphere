@@ -14,7 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stratosphere.hpp>
-#include "../amsmitm_debug.hpp"
 #include "../amsmitm_fs_utils.hpp"
 #include "settings_sd_kvs.hpp"
 
@@ -345,16 +344,23 @@ namespace ams::settings::fwdbg {
             /* If you do not know what you are doing, do not touch this yet. */
             R_ABORT_UNLESS(ParseSettingsItemValue("atmosphere", "fsmitm_redirect_saves_to_sd", "u8!0x0"));
 
-            /* Controls whether to enable the deprecated hid mitm */
-            /* to fix compatibility with old homebrew. */
-            /* 0 = Do not enable, 1 = Enable. */
-            /* Please note this setting may be removed in a future release of Atmosphere. */
-            R_ABORT_UNLESS(ParseSettingsItemValue("atmosphere", "enable_deprecated_hid_mitm", "u8!0x0"));
-
             /* Controls whether am sees system settings "DebugModeFlag" as */
             /* enabled or disabled. */
             /* 0 = Disabled (not debug mode), 1 = Enabled (debug mode) */
             R_ABORT_UNLESS(ParseSettingsItemValue("atmosphere", "enable_am_debug_mode", "u8!0x0"));
+
+            /* Controls whether dns.mitm is enabled. */
+            /* 0 = Disabled, 1 = Enabled */
+            R_ABORT_UNLESS(ParseSettingsItemValue("atmosphere", "enable_dns_mitm", "u8!0x1"));
+
+            /* Controls whether dns.mitm uses the default redirections in addition to */
+            /* whatever is specified in the user's hosts file. */
+            /* 0 = Disabled (use hosts file contents), 1 = Enabled (use defaults and hosts file contents) */
+            R_ABORT_UNLESS(ParseSettingsItemValue("atmosphere", "add_defaults_to_dns_hosts", "u8!0x1"));
+
+            /* Controls whether dns.mitm logs to the sd card for debugging. */
+            /* 0 = Disabled, 1 = Enabled */
+            R_ABORT_UNLESS(ParseSettingsItemValue("atmosphere", "enable_dns_mitm_debug_log", "u8!0x0"));
 
             /* Hbloader custom settings. */
 
@@ -377,10 +383,7 @@ namespace ams::settings::fwdbg {
         LoadDefaultCustomSettings();
 
         /* Parse custom settings off the SD card. */
-        const Result parse_result = LoadSdCardKeyValueStore();
-        if (R_FAILED(parse_result)) {
-            ams::mitm::ThrowResultForDebug(parse_result);
-        }
+        R_ABORT_UNLESS(LoadSdCardKeyValueStore());
 
         /* Determine how many custom settings are present. */
         for (size_t i = 0; i < util::size(g_entries); i++) {

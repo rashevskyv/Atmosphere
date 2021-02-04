@@ -15,10 +15,22 @@
  */
 #pragma once
 #include <stratosphere.hpp>
-#include "../amsmitm_module.hpp"
 
-namespace ams::mitm::hid {
+namespace ams::fssrv::impl {
 
-    DEFINE_MITM_MODULE_CLASS(0x8000, AMS_GET_SYSTEM_THREAD_PRIORITY(hid, IpcServer));
+    class AllocatorForServiceFramework {
+        public:
+            using Policy = ams::sf::StatelessAllocationPolicy<AllocatorForServiceFramework>;
+
+            void *Allocate(size_t size) {
+                return fs::impl::Allocate(size);
+            }
+
+            void Deallocate(void *ptr, size_t size) {
+                return fs::impl::Deallocate(ptr, size);
+            }
+    };
+
+    using FileSystemObjectFactory = ams::sf::ObjectFactory<AllocatorForServiceFramework::Policy>;
 
 }

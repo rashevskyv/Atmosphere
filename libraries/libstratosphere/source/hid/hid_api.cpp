@@ -40,20 +40,18 @@ namespace ams::hid {
 
         /* Helper. */
         void InitializeHid() {
-            R_ABORT_UNLESS(smInitialize());
-            ON_SCOPE_EXIT { smExit(); };
-            {
+            sm::DoWithSession([&]() {
                 R_ABORT_UNLESS(hidInitialize());
                 hidInitializeNpad();
                 R_ABORT_UNLESS(hidSetSupportedNpadIdType(NpadIdTypes, NumNpadIdTypes));
                 R_ABORT_UNLESS(hidSetSupportedNpadStyleSet(HidNpadStyleSet_NpadStandard | HidNpadStyleTag_NpadSystemExt));
-            }
+            });
         }
 
         Result EnsureHidInitialized() {
             if (!g_initialized_hid) {
                 if (!serviceIsActive(hidGetServiceSession())) {
-                    if (!pm::info::HasLaunchedProgram(ncm::SystemProgramId::Hid)) {
+                    if (!pm::info::HasLaunchedBootProgram(ncm::SystemProgramId::Hid)) {
                         return MAKERESULT(Module_Libnx, LibnxError_InitFail_HID);
                     }
                     InitializeHid();

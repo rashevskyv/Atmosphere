@@ -13,15 +13,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "hid_shim.h"
-#include <stratosphere/sf/sf_mitm_dispatch.h>
+#pragma once
+#include <vapours.hpp>
 
-/* Command forwarders. */
-Result hidSetSupportedNpadStyleSetFwd(Service* s, u64 process_id, u64 aruid, u32 style_set) {
-    const struct {
-        u32 style_set;
-        u32 pad;
-        u64 aruid;
-    } in = { style_set, 0, aruid };
-    return serviceMitmDispatchIn(s, 100, in, .in_send_pid = true, .override_pid = process_id);
+namespace ams::sf::impl {
+
+    class ServiceObjectImplBase2 {
+        private:
+            std::atomic<u32> m_ref_count;
+        protected:
+            constexpr ServiceObjectImplBase2() : m_ref_count(1) { /* ... */ }
+
+            void AddReferenceImpl() {
+                const auto prev = m_ref_count.fetch_add(1);
+                AMS_ABORT_UNLESS(prev < std::numeric_limits<u32>::max());
+            }
+
+            bool ReleaseImpl() {
+                const auto prev = m_ref_count.fetch_sub(1);
+                AMS_ABORT_UNLESS(prev != 0);
+                return prev == 1;
+            }
+    };
+
 }

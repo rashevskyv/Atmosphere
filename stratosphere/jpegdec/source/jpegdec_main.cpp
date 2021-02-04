@@ -15,6 +15,8 @@
  */
 #include <stratosphere.hpp>
 
+/* TODO: Update libjpeg-turbo to include Nintendo's changes (support for work buffer, rather than malloc) */
+
 extern "C" {
     extern u32 __start__;
 
@@ -36,12 +38,6 @@ extern "C" {
 
 namespace ams {
     ncm::ProgramId CurrentProgramId = ncm::SystemProgramId::JpegDec;
-
-    namespace result {
-
-        bool CallFatalOnResultAssertion = true;
-
-    }
 
 }
 

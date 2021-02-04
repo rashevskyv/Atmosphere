@@ -22,7 +22,7 @@
 #include "bpc_mitm/bpcmitm_module.hpp"
 #include "bpc_mitm/bpc_ams_module.hpp"
 #include "ns_mitm/nsmitm_module.hpp"
-#include "hid_mitm/hidmitm_module.hpp"
+#include "dns_mitm/dnsmitm_module.hpp"
 #include "sysupdater/sysupdater_module.hpp"
 
 namespace ams::mitm {
@@ -35,7 +35,7 @@ namespace ams::mitm {
             ModuleId_BpcMitm,
             ModuleId_BpcAms,
             ModuleId_NsMitm,
-            ModuleId_HidMitm,
+            ModuleId_DnsMitm,
             ModuleId_Sysupdater,
             ModuleId_Count,
         };
@@ -67,7 +67,7 @@ namespace ams::mitm {
             GetModuleDefinition<bpc::MitmModule>(),
             GetModuleDefinition<bpc_ams::MitmModule>(),
             GetModuleDefinition<ns::MitmModule>(),
-            GetModuleDefinition<hid::MitmModule>(),
+            GetModuleDefinition<socket::resolver::MitmModule>(),
             GetModuleDefinition<sysupdater::MitmModule>(),
         };
 

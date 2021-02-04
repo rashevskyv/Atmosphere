@@ -13,16 +13,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stratosphere.hpp>
-#include "hid_mitm_service.hpp"
-#include "hid_shim.h"
+#pragma once
+#include <vapours.hpp>
+#include <stratosphere/nsd/nsd_types.hpp>
 
-namespace ams::mitm::hid {
+namespace ams::nsd::impl::device {
 
-    Result HidMitmService::SetSupportedNpadStyleSet(const sf::ClientAppletResourceUserId &client_aruid, u32 style_set) {
-        /* This code applies only to hbl, guaranteed by the check in ShouldMitm. */
-        style_set |= HidNpadStyleTag_NpadSystem | HidNpadStyleTag_NpadSystemExt;
-        return hidSetSupportedNpadStyleSetFwd(this->forward_service.get(), static_cast<u64>(this->client_info.process_id), static_cast<u64>(client_aruid.GetValue()), style_set);
-    }
+    const EnvironmentIdentifier &GetEnvironmentIdentifierFromSettings();
 
 }
