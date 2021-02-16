@@ -36,8 +36,7 @@ namespace ams::mitm::settings {
             if (AMS_LIKELY(g_cached_firmware_version)) {
                 return;
             }
-
-            {
+{
                 /* Mount the SD card. */
                 if (R_SUCCEEDED(fs::MountSdCard("sdmc"))) {
                     ams::fs::FileHandle file;
@@ -83,14 +82,12 @@ namespace ams::mitm::settings {
                 const char emummc_char = emummc::IsActive() ? 'E' : 'S';
 
                 /* GCC complains about the following snprintf possibly truncating, but this is not a problem and has been carefully accounted for. */
-                const char mesosphere_char = svc::IsKernelMesosphere() ? 'M' : '0';
-
                 #pragma GCC diagnostic push
                 #pragma GCC diagnostic ignored "-Wformat-truncation"
                 {
                     char display_version[sizeof(g_ams_firmware_version.display_version)];
                     if ( g_kfr_firmware_version != 0 )
-                        std::snprintf(display_version, sizeof(display_version), "%s|KEF%u-%u.%u.%u|%c", g_ams_firmware_version.display_version, g_kfr_firmware_version, api_info.GetMajorVersion(), api_info.GetMinorVersion(), api_info.GetMicroVersion(), emummc_char);
+                        std::snprintf(display_version, sizeof(display_version), "%s|KEF%d-%u.%u.%u|%c", g_ams_firmware_version.display_version, g_kfr_firmware_version, api_info.GetMajorVersion(), api_info.GetMinorVersion(), api_info.GetMicroVersion(), emummc_char);
                     else
                         std::snprintf(display_version, sizeof(display_version), "%s|KEF-%u.%u.%u|%c", g_ams_firmware_version.display_version, api_info.GetMajorVersion(), api_info.GetMinorVersion(), api_info.GetMicroVersion(), emummc_char);
                     

@@ -50,7 +50,7 @@ namespace ams::ldr {
     }
 
     bool IsDevelopmentForAntiDowngradeCheck() {
-        return true;
+        return false;
     }
 
     bool IsDevelopmentForAcidSignatureCheck() {

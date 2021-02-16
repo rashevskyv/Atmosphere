@@ -881,7 +881,7 @@ namespace dbk {
                     /* Check if exfat is supported. */
                     g_exfat_supported = m_update_info.exfat_supported && R_SUCCEEDED(m_validation_info.exfat_result);
                     if (!g_exfat_supported) {
-                        g_use_exfat = true;
+                        g_use_exfat = false;
                     }
 
                     /* Warn the user if they're updating with exFAT supposed to be supported but not present/corrupted. */
@@ -941,9 +941,7 @@ namespace dbk {
                     break;
             }
 
-            ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));
-
-        }
+            ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));        }
 
         this->UpdateButtons();
 

@@ -37,6 +37,7 @@ namespace ams::mitm {
             ModuleId_NsMitm,
             ModuleId_DnsMitm,
             ModuleId_Sysupdater,
+
             ModuleId_Count,
         };
 
